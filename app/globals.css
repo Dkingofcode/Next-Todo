@@ -18,10 +18,15 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+
 }
+
+
+/* styles.css */
+.bg-image {
+  background-image: url('/bg-desktop-dark.jpg'); /* Relative path to your image */
+  background-size: cover;
+  background-position: center;
+}
+
+
