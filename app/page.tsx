@@ -1,3 +1,8 @@
+"use client";
+
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import backgroundDark from '../public/bg-desktop-dark.jpg';
 import sun from '../public/icon-sun.svg';
@@ -7,7 +12,53 @@ import cross from '../public/icon-cross.svg';
 
 
 
+
+
 export default function Home() {
+
+
+  const [todos, setTodos] =  useState([]);
+ 
+  const addTodo = (text) => {
+    if(text.trim() === ''){
+      return;  // Prevent adding empty todos
+    }
+
+    const newTodo = {
+      id: Date.now(), // YOu can use a unique identifier like a timestamp
+      text,
+      completed: false,
+    };
+    setTodos([...todos, newTodo]);
+  }
+
+ const ShowAll = () => {
+   return todos;
+ }
+
+ const ShowActive = () => {
+   return todos.filter(todo => todo.completed === false);
+ }
+
+ const ShowCompleted = () => {
+   return  todos.filter(todo => todo.completed === true);
+ }
+
+ const removeCompleted = () => {
+   const activeTodos =  todos.filter(todo => todo.status === "active")
+   setTodos(activeTodos);
+ }
+
+ const handleClick = () => {
+   const updatedTodos = todos.map(todo => {
+    if(todo.id === id){
+      return { ...todo, completed: !todo.completed};
+    }
+    return todo;
+   });
+   setTodos(updatedTodos);
+ }
+
   return (
     <main className="flex min-h-screen flex-col items-center p-12 bg-image">
       <div className="header">
@@ -18,60 +69,49 @@ export default function Home() {
       <div className="todo">
          <div className='box'>
           <div className='circle'  />
-          <input type="text" className='input' placeholder="Create a new todo..." />
+          <input type="text" 
+             className='input' 
+             placeholder="Create a new todo..." 
+             onKeyDown={(e) => {
+              if (e.key === 'Enter'){
+                addTodo(e.target.value);
+                e.target.value = ''; // Clear the input field
+              }
+             }}
+             />
          </div>
 
+
+
+
           <div>
-            <div className='box'>
-              {/* <Image src={check} alt="checked button" width={10} height={10}  /> */}
-              <div className='circle'  />
-              <h1>Complete online Javascript course</h1>
-            </div>
-            <div className='box'>
-            {/* <Image src={check} alt="checked button" width={10} height={10}  /> */}
-            <div className='circle'  />
-              <h1>Jog around the park 3x</h1>
-            </div>
-            <div className='box'>
-            {/* <Image src={check} alt="checked button" width={10} height={10}  /> */}
-            <div className='circle'  />
-              <h1>10 minutes meditation</h1>
-            </div>
-            <div className='box'>
-            {/* <Image src={check} alt="checked button" width={10} height={10}  /> */}
-            <div className='circle'  />
-              <h1>Read for 1 hour</h1>
-            </div>
-            <div className='box'>
-            {/* <Image src={check} alt="checked button" width={10} height={10}  /> */}
-            <div className='circle'  />
-              <h1>Pick up groceries</h1>
-            </div>
-            
-            <div className='box'>
-            {/* <Image src={check} alt="checked button" width={10} height={10}  /> */}
-            <div className='circle'  />
-              <h1>Complete todo app on frontend mentor</h1>
-            </div>
-            <div className='box footer'>
+           {todos.map((todo) => ( 
+            <div key={todo.id} className={`box ${todo.completed ? 'completed' : ''}`}>  
+             <div className={`circle ${todo.completed ? 'completed' : ''}`} onClick={handleClick} />  
+             <h1>{todo.text}</h1>
+             <Image src={cross} className='cross' width={10} height={10} alt="line-through"  />
+            </div>  
+           ))}
+
+         <div className='box footer'>
               <div>
-              <p>5 items left</p>
+              <p>{todos.length} items left</p>
               </div>
 
               <div className='buttons'>
-                <p>All</p>
+                <button onClick={ShowAll}>All</button>
               </div>
 
                 <div>  
-                <p>Active</p>
+                <button onClick={ShowActive}>Active</button>
                 </div>
 
                 <div>
-                <p>Completed</p>
+                <button onClick={ShowCompleted}>Completed</button>
               </div>
 
                <div>
-                <p>Clear completed</p>
+                <button onClick={removeCompleted}>Clear completed</button>
                </div>
 
 

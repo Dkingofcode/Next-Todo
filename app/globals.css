@@ -106,6 +106,14 @@ input::placeholder{
   font-size: 0.9rem;
 }
 
+.completed{
+  text-decoration: line-through;  
+}
+
+.cross{
+  display: none;
+}
+
 .footer{
   color: white;
   display: flex;
