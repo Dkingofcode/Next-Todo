@@ -29,7 +29,7 @@ export default function Home() {
       text,
       completed: false,
     };
-    setTodos([...todos, newTodo]);
+    setTodos((prevTodos) => [...prevTodos, newTodo]);  // Use the setTodo.
   }
 
  const ShowAll = () => {
@@ -49,7 +49,7 @@ export default function Home() {
    setTodos(activeTodos);
  }
 
- const handleClick = () => {
+ const handleClick = (id) => {
    const updatedTodos = todos.map(todo => {
     if(todo.id === id){
       return { ...todo, completed: !todo.completed};
@@ -59,11 +59,15 @@ export default function Home() {
    setTodos(updatedTodos);
  }
 
+ const handleChangeBackground = () => {
+    
+ }
+
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 bg-image">
+    <main className="flex min-h-screen flex-col items-center p-12 dark-bg-image">
       <div className="header">
         <h1>TODO</h1>  
-        <Image src={sun} alt="icon of the sun" width={20} height={5} />
+        <Image src={sun} onClick={handleChangeBackground} alt="icon of the sun" width={20} height={5} />
       </div>
 
       <div className="todo">
@@ -86,9 +90,11 @@ export default function Home() {
 
           <div>
            {todos.map((todo) => ( 
-            <div key={todo.id} className={`box ${todo.completed ? 'completed' : ''}`}>  
-             <div className={`circle ${todo.completed ? 'completed' : ''}`} onClick={handleClick} />  
-             <h1>{todo.text}</h1>
+             <div key={todo.id} className={`box ${todo.completed ? 'completed' : ''}`}>  
+             <div className={`circle ${todo.completed ? 'check' : ''}`} onClick={() => handleClick(todo.id)}>
+             {todo.completed && <Image src={check} className="checkmark" height={5} width={5} alt="check mark"  />}
+              </div>  
+             <h1 className={`${todo.completed ? 'fade' : ''}`}>{todo.text}</h1>
              <Image src={cross} className='cross' width={10} height={10} alt="line-through"  />
             </div>  
            ))}
