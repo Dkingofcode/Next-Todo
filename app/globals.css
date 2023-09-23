@@ -112,14 +112,14 @@ input::placeholder{
 
 .todo > div:nth-child(2){
   border-radius: 0.5rem;
-  border: 3px solid hsl(235, 24%, 19%);
+  border: 3px solid;
   border-radius: 0.5rem;
 
 }
 
 
 .box{
-  border-bottom: 1px solid hsl(237, 14%, 26%);
+  border-bottom: 1px solid hsl(236, 33%, 92%);
   display: flex;
   padding: 13px 20px;
   width: 30rem;
@@ -136,7 +136,7 @@ input::placeholder{
 .completed{
   text-decoration: line-through;
   text-decoration-color: hsl(234, 39%, 85%) ;  
-  color:  hsl(235, 21%, 11%);
+  color: hsl(235, 21%, 11%);
 }
 
 .check{
@@ -191,6 +191,10 @@ input::placeholder{
   background-color: hsl(0, 0%, 98%);
   color: hsl(235, 19%, 35%);
   caret-color: blue;
+}
+
+.text-light{
+  color: hsl(235, 19%, 35%);
 }
 
 /* # Front-end Style Guide

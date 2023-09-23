@@ -94,18 +94,18 @@ export default function Home() {
 
 
 
-          <div style={{ color: 'white'}}>
+          <div style={{ color: mode ? 'white' : 'hsl(235, 24%, 19%)' }}>
            {todos.map((todo) => ( 
-             <div key={todo.id} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
+             <div key={todo.id} style={{ borderBottom: '1px solid hsl(233, 11%, 84%)' }} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
              <div className={`circle ${todo.completed ? 'check' : ''}`} onClick={() => handleClick(todo.id)}>
              {todo.completed && <Image src={check} className="checkmark" height={5} width={5} alt="check mark"  />}
               </div>  
-             <h1 className={`${todo.completed ? 'fade' : ''}`}>{todo.text}</h1>
+             <h1 style={{ color: mode ? 'hsl(235, 19%, 35%)' : ''}} className={`${todo.completed ? 'fade' : ''}`}>{todo.text}</h1>
              <Image src={cross} className='cross' width={10} height={10} alt="line-through"  />
             </div>  
            ))}
 
-         <div className='box footer'>
+         <div className={`box footer  ${mode ? 'light' : ''}`}>
               <div>
               <p>{todos.length} items left</p>
               </div>
