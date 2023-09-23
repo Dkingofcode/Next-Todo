@@ -16,9 +16,9 @@ import cross from '../public/icon-cross.svg';
 
 export default function Home() {
 
-
+  const [mode, setMode] = useState(false);
   const [todos, setTodos] =  useState([]);
- 
+  
   const addTodo = (text) => {
     if(text.trim() === ''){
       return;  // Prevent adding empty todos
@@ -60,21 +60,27 @@ export default function Home() {
  }
 
  const handleChangeBackground = () => {
-    
- }
+    if(mode === false){
+      setMode(true);
+    }
+    else if(mode === true){
+      setMode(false);
+    }
+   
+  }
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 dark-bg-image">
+    <main className={`flex min-h-screen flex-col items-center p-12  ${mode ? 'light-bg-image light-mode' : 'bg-image dark-mode'}`}>
       <div className="header">
         <h1>TODO</h1>  
         <Image src={sun} onClick={handleChangeBackground} alt="icon of the sun" width={20} height={5} />
       </div>
 
       <div className="todo">
-         <div className='box'>
+         <div className={`box ${mode ? 'light' : ''}`}>
           <div className='circle'  />
           <input type="text" 
-             className='input' 
+             className= {`input ${mode ? 'light' : ''}`} 
              placeholder="Create a new todo..." 
              onKeyDown={(e) => {
               if (e.key === 'Enter'){
@@ -88,9 +94,9 @@ export default function Home() {
 
 
 
-          <div>
+          <div style={{ color: 'white'}}>
            {todos.map((todo) => ( 
-             <div key={todo.id} className={`box ${todo.completed ? 'completed' : ''}`}>  
+             <div key={todo.id} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
              <div className={`circle ${todo.completed ? 'check' : ''}`} onClick={() => handleClick(todo.id)}>
              {todo.completed && <Image src={check} className="checkmark" height={5} width={5} alt="check mark"  />}
               </div>  

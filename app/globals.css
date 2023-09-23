@@ -1,4 +1,3 @@
-
   @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
 
 
@@ -9,6 +8,7 @@
 
 :root {
   --light-background: hsl(0, 0%, 98%);
+  --dark-background: hsl(235, 21%, 11%);
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -16,7 +16,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --dark-background: hsl(235, 21%, 11%) ; 
+    --dark-background: hsl(235, 21%, 11%); 
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
@@ -28,10 +28,18 @@ body {
 }
 
 
+
 /* styles.css */
-.dark-bg-image {
+.bg-image {
   background-image: url('/bg-desktop-dark.jpg'); /* Relative path to your image */
   background-repeat: no-repeat;
+  background-color: var(--dark-background);
+}
+
+.light-bg-image{
+  background-image: url('/bg-desktop-light.jpg');
+  background-repeat: no-repeat;
+  background-color: var(--light-background);
 }
 
 .header{
@@ -63,6 +71,8 @@ body {
   outline: none;
   background-color: hsl(235, 24%, 19%);
 }
+
+
   /* hsl(235, 24%, 19%); */
 
 input::placeholder{
@@ -122,6 +132,7 @@ input::placeholder{
   font-size: 0.9rem;
 }
 
+
 .completed{
   text-decoration: line-through;
   text-decoration-color: hsl(234, 39%, 85%) ;  
@@ -132,9 +143,10 @@ input::placeholder{
   background: linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
   opacity: 100%;
   /* background-color: aquamarine; */
-  color: white;
-  
+  color: white; 
 }
+
+
 
 .fade{
   opacity: 50%;
@@ -175,6 +187,11 @@ input::placeholder{
 }
 
 
+.light{
+  background-color: hsl(0, 0%, 98%);
+  color: hsl(235, 19%, 35%);
+  caret-color: blue;
+}
 
 /* # Front-end Style Guide
 
