@@ -3,6 +3,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Image from 'next/image';
 import backgroundDark from '../public/bg-desktop-dark.jpg';
 import sun from '../public/icon-sun.svg';
@@ -18,7 +19,8 @@ export default function Home() {
 
   const [mode, setMode] = useState(false);
   const [todos, setTodos] =  useState([]);
-  
+  const [category, setCategory] = useState("all");
+
   const addTodo = (text) => {
     if(text.trim() === ''){
       return;  // Prevent adding empty todos
@@ -32,21 +34,40 @@ export default function Home() {
     setTodos((prevTodos) => [...prevTodos, newTodo]);  // Use the setTodo.
   }
 
- const ShowAll = () => {
-   return todos;
- }
+//  const ShowAll = () => {
+//    setTodos(todos);
+//    return todos;
+//  }
 
- const ShowActive = () => {
-   return todos.filter(todo => todo.completed === false);
- }
+//  const ShowActive = () => {
+//    const activeTodos = todos.filter(todo => todo.completed == false);
+//    setTodos(activeTodos);
+//    console.log(todos);
+//      return todos;
+//   }
 
- const ShowCompleted = () => {
-   return  todos.filter(todo => todo.completed === true);
- }
+//  const ShowCompleted = () => {
+//    const CompletedTodos = todos.filter(todo => todo.completed == true);
+//    setTodos(CompletedTodos);
+//    console.log(todos);
+
+//  }
+
+const getFilteredTodos = () => {
+  // Determine which filter to apply based on state
+  if(category === 'active'){
+    return todos.filter((todo) => !todo.completed);
+  }
+  else if(category === 'completed'){
+    return  todos.filter((todo) => todo.completed);
+  }
+  return todos; // Default: show All 
+}
 
  const removeCompleted = () => {
-   const activeTodos =  todos.filter(todo => todo.status === "active")
+   const activeTodos =  todos.filter((todo) => !todo.completed);
    setTodos(activeTodos);
+   console.log(todos);
  }
 
  const handleClick = (id) => {
@@ -60,13 +81,18 @@ export default function Home() {
  }
 
  const handleChangeBackground = () => {
-    if(mode === false){
-      setMode(true);
-    }
-    else if(mode === true){
-      setMode(false);
-    }
+    setMode(!mode);
    
+  }
+
+  const handleDragEnd = (result) => {
+    if(!result.destination) return;
+
+    const items = Array.from(todos);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setTodos(items);
   }
 
   return (
@@ -95,15 +121,35 @@ export default function Home() {
 
 
           <div style={{ color: mode ? 'white' : 'hsl(235, 24%, 19%)' }}>
-           {todos.map((todo) => ( 
-             <div key={todo.id} style={{ borderBottom: '1px solid hsl(233, 11%, 84%)' }} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
+           <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="todos">
+             {(provided) => (
+             <div {...provided.droppableProps} ref={provided.innerRef}>
+            {getFilteredTodos().map((todo, index) => ( 
+             <Draggable key={todo.id} draggableId={todo.id.toString()} index={index}>
+              {(provided) => (
+                  
+             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} key={todo.id} style={{ borderBottom: '1px solid hsl(233, 11%, 84%)' }} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
+             <div className='view'>
              <div className={`circle ${todo.completed ? 'check' : ''}`} onClick={() => handleClick(todo.id)}>
              {todo.completed && <Image src={check} className="checkmark" height={5} width={5} alt="check mark"  />}
               </div>  
              <h1 style={{ color: mode ? 'hsl(235, 19%, 35%)' : ''}} className={`${todo.completed ? 'fade' : ''}`}>{todo.text}</h1>
-             <Image src={cross} className='cross' width={10} height={10} alt="line-through"  />
-            </div>  
+              </div>
+              <div>
+             {/* <Image src={} /> */}
+             <Image src={cross} className='' width={10} height={10} alt="x-mark"  />
+             </div>  
+            </div>
+           )}
+             </Draggable> 
            ))}
+               </div>  
+              )}
+            </Droppable>
+             </DragDropContext>
+
+           
 
          <div className={`box footer  ${mode ? 'light' : ''}`}>
               <div>
@@ -111,21 +157,20 @@ export default function Home() {
               </div>
 
               <div className='buttons'>
-                <button onClick={ShowAll}>All</button>
+                <button onClick={() => setCategory('all')}>All</button>
               </div>
 
                 <div>  
-                <button onClick={ShowActive}>Active</button>
+                <button onClick={() => setCategory('active')}>Active</button>
                 </div>
 
                 <div>
-                <button onClick={ShowCompleted}>Completed</button>
+                <button onClick={() => setCategory('completed')}>Completed</button>
               </div>
 
                <div>
                 <button onClick={removeCompleted}>Clear completed</button>
                </div>
-
 
               
             </div>
@@ -134,6 +179,7 @@ export default function Home() {
         </div>
 
       
+      <p className='footer-note'>Drag and drop to reorder list</p>
     </main>
   )
 }

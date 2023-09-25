@@ -114,7 +114,7 @@ input::placeholder{
   border-radius: 0.5rem;
   border: 3px solid;
   border-radius: 0.5rem;
-
+  box-shadow: 0 10px 10px 0 rgb(0,0,0, 0.4);
 }
 
 
@@ -124,7 +124,17 @@ input::placeholder{
   padding: 13px 20px;
   width: 30rem;
   gap: 0.5rem;
+  justify-content: space-between;
   background-color: hsl(235, 24%, 19%);
+}
+
+.box  .footer{
+   border: 2px solid red;
+}
+
+.view{
+  display: flex;
+  gap: 0.5rem;
 }
 
 .box h1{
@@ -153,7 +163,7 @@ input::placeholder{
 }
 
 .cross{
-  display: none;
+  display: block;
 }
 
 .checkmark{
@@ -171,8 +181,15 @@ input::placeholder{
   display: none;
 }
 
+.footer-note{
+  margin-top: 2rem;
+  color: hsl(234, 11%, 52%);
+  font-size: 0.8rem;
+}
+
 .footer{
   color: white;
+  border-bottom: none;
   display: flex;
   justify-content: space-between;
 }
