@@ -95,6 +95,14 @@ const getFilteredTodos = () => {
     setTodos(items);
   }
 
+  const removetodo = (id) => {
+    if(id){
+     const updatedTodos = todos.filter((todo) => todo.id !== id);  
+     setTodos(updatedTodos);
+    }
+    
+  }
+
   return (
     <main className={`flex min-h-screen flex-col items-center p-12  ${mode ? 'light-bg-image light-mode' : 'bg-image dark-mode'}`}>
       <div className="header">
@@ -138,7 +146,7 @@ const getFilteredTodos = () => {
               </div>
               <div>
              {/* <Image src={} /> */}
-             <Image src={cross} className='' width={10} height={10} alt="x-mark"  />
+             <Image onClick={() => removetodo(todo.id)} src={cross} className='' width={10} height={10} alt="x-mark"  />
              </div>  
             </div>
            )}
