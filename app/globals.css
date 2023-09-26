@@ -59,6 +59,11 @@ body {
   border: 2px solid white;
 }
 
+.circle:hover{
+  color: hsl(220, 98%, 61%) !important;
+  border-color: hsl(219, 100%, 62%) !important;
+}
+
 
 
  .input{
@@ -203,6 +208,9 @@ input::placeholder{
   display: block;
 }
 
+.closebtn{
+  font-size: 1.3rem;
+}
 
 .light{
   background-color: hsl(0, 0%, 98%);
@@ -221,7 +229,7 @@ input::placeholder{
    }   
 
    .showbtn{
-      color: white;
+      color: hsl(235, 19%, 35%);
    }
 }
 

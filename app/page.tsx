@@ -47,7 +47,7 @@ export default function Home() {
   function renderButtons() {
     if (screenSize <= 700) {
       return (
-        <div className='box'>
+        <div className={`box ${mode ? 'light' : ''}`}>
           <div>
             <button className="showbtn" style={{ color: category === "all" ? 'blue' : ''  }} onClick={() => setCategory('all')}>All</button>
           </div>
@@ -67,7 +67,7 @@ export default function Home() {
   
 
 
-  const addTodo = (text) => {
+  const addTodo = (text: any) => {
     if(text.trim() === ''){
       return;  // Prevent adding empty todos
     }
@@ -116,7 +116,7 @@ const getFilteredTodos = () => {
    console.log(todos);
  }
 
- const handleClick = (id) => {
+ const handleClick = (id: any) => {
    const updatedTodos = todos.map(todo => {
     if(todo.id === id){
       return { ...todo, completed: !todo.completed};
@@ -131,7 +131,7 @@ const getFilteredTodos = () => {
    
   }
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = (result: { destination: { index: number; }; source: { index: number; }; }) => {
     if(!result.destination) return;
 
     const items = Array.from(todos);
@@ -141,7 +141,7 @@ const getFilteredTodos = () => {
     setTodos(items);
   }
 
-  const removetodo = (id) => {
+  const removetodo = (id: any) => {
     if(id){
      const updatedTodos = todos.filter((todo) => todo.id !== id);  
      setTodos(updatedTodos);
@@ -177,22 +177,22 @@ const getFilteredTodos = () => {
           <div style={{ color: mode ? 'white' : 'hsl(235, 24%, 19%)' }}>
            <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="todos">
-             {(provided) => (
+             {(provided: { droppableProps: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>; innerRef: React.LegacyRef<HTMLDivElement> | undefined; }) => (
              <div {...provided.droppableProps} ref={provided.innerRef}>
             {getFilteredTodos().map((todo, index) => ( 
              <Draggable key={todo.id} draggableId={todo.id.toString()} index={index}>
-              {(provided) => (
+              {(provided: { innerRef: React.LegacyRef<HTMLDivElement> | undefined; draggableProps: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>; dragHandleProps: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>; }) => (
                   
              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} key={todo.id} style={{ borderBottom: '1px solid hsl(233, 11%, 84%)' }} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
              <div className='view'>
-             <div className={`circle ${todo.completed ? 'check' : ''}`} onClick={() => handleClick(todo.id)}>
+             <div className={`circle ${todo.completed ? 'check' : ''}`} style={{ borderColor: mode ? 'hsl(234, 11%, 52%)' : ''}} onClick={() => handleClick(todo.id)}>
              {todo.completed && <Image src={check} className="checkmark" height={5} width={5} alt="check mark"  />}
               </div>  
              <h1 style={{ color: mode ? 'hsl(235, 19%, 35%)' : ''}} className={`${todo.completed ? 'fade' : ''}`}>{todo.text}</h1>
               </div>
               <div>
              {/* <Image src={} /> */}
-             <Image onClick={() => removetodo(todo.id)} src={cross} className='' width={10} height={10} alt="x-mark"  />
+             <Image onClick={() => removetodo(todo.id)} src={cross} className='closebtn' width={10} height={10} alt="x-mark"  />
              </div>  
             </div>
            )}
@@ -211,15 +211,15 @@ const getFilteredTodos = () => {
               </div>
 
               <div className='buttons'>
-                <button className='btn' onClick={() => setCategory('all')}>All</button>
+                <button className='btn' style={{ color: category === "all" ? 'hsl(220, 98%, 61%)' : ''  }} onClick={() => setCategory('all')}>All</button>
               </div>
 
                 <div>  
-                <button className='btn' onClick={() => setCategory('active')}>Active</button>
+                <button className='btn' style={{ color: category === "active" ? 'hsl(220, 98%, 61%)' : ''  }} onClick={() => setCategory('active')}>Active</button>
                 </div>
 
                 <div>
-                <button className='btn' onClick={() => setCategory('completed')}>Completed</button>
+                <button className='btn' style={{ color: category === "completed" ? 'hsl(220, 98%, 61%)' : ''  }} onClick={() => setCategory('completed')}>Completed</button>
               </div>
 
                <div>
