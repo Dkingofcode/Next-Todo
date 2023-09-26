@@ -1,4 +1,4 @@
-  @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
 
 
 
@@ -212,6 +212,17 @@ input::placeholder{
 
 .text-light{
   color: hsl(235, 19%, 35%);
+}
+
+
+@media screen and (max-width: 700px){
+   .btn{
+    display: none;
+   }   
+
+   .showbtn{
+      color: white;
+   }
 }
 
 /* # Front-end Style Guide

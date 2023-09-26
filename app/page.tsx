@@ -16,10 +16,56 @@ import cross from '../public/icon-cross.svg';
 
 
 export default function Home() {
-
+   
+  const [screenSize, setScreenSize] = useState(0);
   const [mode, setMode] = useState(false);
   const [todos, setTodos] =  useState([]);
   const [category, setCategory] = useState("all");
+
+  useEffect(() => {
+    // Check if window is defined (for server-side rendering)
+    if (typeof window !== 'undefined') {
+      setScreenSize(window.innerWidth);
+    }
+
+    // Add a resize event listener to update screenSize when the window resizes
+    function handleResize() {
+      setScreenSize(window.innerWidth);
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup the event listener when the component unmounts
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, []);
+
+
+  function renderButtons() {
+    if (screenSize <= 700) {
+      return (
+        <div className='box'>
+          <div>
+            <button className="showbtn" style={{ color: category === "all" ? 'blue' : ''  }} onClick={() => setCategory('all')}>All</button>
+          </div>
+          <div>
+            <button className='showbtn' style={{ color: category === "active" ? 'blue' : '' }} onClick={() => setCategory('active')}>Active</button>
+          </div>
+          <div>
+            <button className='showbtn' style={{ color: category === "completed" ? 'blue' : '' }} onClick={() => setCategory('completed')}>Completed</button>
+          </div>
+        </div>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  
+
 
   const addTodo = (text) => {
     if(text.trim() === ''){
@@ -165,23 +211,24 @@ const getFilteredTodos = () => {
               </div>
 
               <div className='buttons'>
-                <button onClick={() => setCategory('all')}>All</button>
+                <button className='btn' onClick={() => setCategory('all')}>All</button>
               </div>
 
                 <div>  
-                <button onClick={() => setCategory('active')}>Active</button>
+                <button className='btn' onClick={() => setCategory('active')}>Active</button>
                 </div>
 
                 <div>
-                <button onClick={() => setCategory('completed')}>Completed</button>
+                <button className='btn' onClick={() => setCategory('completed')}>Completed</button>
               </div>
 
                <div>
                 <button onClick={removeCompleted}>Clear completed</button>
                </div>
-
-              
             </div>
+
+
+            {renderButtons()}
           </div>
           
         </div>
