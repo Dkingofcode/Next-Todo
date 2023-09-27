@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -10,16 +10,20 @@ import sun from '../public/icon-sun.svg';
 import moon from '../public/icon-moon.svg';
 import check from '../public/icon-check.svg';
 import cross from '../public/icon-cross.svg';
+import { DropResult } from 'react-beautiful-dnd';
 
-
-
+type Todo = {
+  id: number;
+  text: string;
+  completed: boolean;
+};
 
 
 export default function Home() {
    
   const [screenSize, setScreenSize] = useState(0);
   const [mode, setMode] = useState(false);
-  const [todos, setTodos] =  useState([]);
+  const [todos, setTodos] =  useState<Todo[]>([]);
   const [category, setCategory] = useState("all");
 
   useEffect(() => {
@@ -131,7 +135,7 @@ const getFilteredTodos = () => {
    
   }
 
-  const handleDragEnd = (result: { destination: { index: number; }; source: { index: number; }; }) => {
+  const handleDragEnd = (result: DropResult) => {
     if(!result.destination) return;
 
     const items = Array.from(todos);
@@ -164,8 +168,9 @@ const getFilteredTodos = () => {
              placeholder="Create a new todo..." 
              onKeyDown={(e) => {
               if (e.key === 'Enter'){
-                addTodo(e.target.value);
-                e.target.value = ''; // Clear the input field
+                const inputElement = e.target as HTMLInputElement
+                addTodo(inputElement.value);
+                inputElement.value = ''; // Clear the input field
               }
              }}
              />
@@ -177,12 +182,11 @@ const getFilteredTodos = () => {
           <div style={{ color: mode ? 'white' : 'hsl(235, 24%, 19%)' }}>
            <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="todos">
-             {(provided: { droppableProps: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>; innerRef: React.LegacyRef<HTMLDivElement> | undefined; }) => (
+             {(provided, snapshot) => (
              <div {...provided.droppableProps} ref={provided.innerRef}>
             {getFilteredTodos().map((todo, index) => ( 
              <Draggable key={todo.id} draggableId={todo.id.toString()} index={index}>
-              {(provided: { innerRef: React.LegacyRef<HTMLDivElement> | undefined; draggableProps: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>; dragHandleProps: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>; }) => (
-                  
+              {(provided, snapshot) => (
              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} key={todo.id} style={{ borderBottom: '1px solid hsl(233, 11%, 84%)' }} className={`box ${todo.completed ? 'completed' : ''} ${mode ? 'light' : ''}`}>  
              <div className='view'>
              <div className={`circle ${todo.completed ? 'check' : ''}`} style={{ borderColor: mode ? 'hsl(234, 11%, 52%)' : ''}} onClick={() => handleClick(todo.id)}>
