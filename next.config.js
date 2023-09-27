@@ -1,15 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    distDir: 'build',
-    assetPrefix: assetPrefix,
-    basePath: basePath,
-    images: {
-      loader: 'imgix',
-      path: 'the "domain" of your Imigix source',
-  },
-}
 
 const isGithubActions = process.env.GITHUB_ACTIONS || false
+
 
 let assetPrefix = ''
 let basePath = '/'
@@ -20,5 +12,17 @@ if (isGithubActions) {
   assetPrefix = `/${repo}/`
   basePath = `/${repo}`
 }
+
+
+const nextConfig = {
+    distDir: 'build',
+    assetPrefix: assetPrefix,
+    basePath: basePath,
+    images: {
+      loader: 'imgix',
+      path: 'the "domain" of your Imigix source',
+  },
+}
+
 
 module.exports = nextConfig
